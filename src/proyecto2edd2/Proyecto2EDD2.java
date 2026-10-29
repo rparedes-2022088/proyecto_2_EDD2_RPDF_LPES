@@ -7,6 +7,7 @@ package proyecto2edd2;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.io.IOException;
 
 /**
  *
@@ -27,6 +28,35 @@ public class Proyecto2EDD2 {
         LectorLibros lectorLibs = new LectorLibros();
         List<Usuario> usuarios = new ArrayList<Usuario>();
         List<Libro> libros = new ArrayList<Libro>();
+        System.out.println("Proyecto 2 - EDD2");
+        
+        //ingreso de datos para crear conexion al servidor
+        System.out.println("Ingrese la IP del servidor al que desea acceder");
+        String ip = sc.nextLine().trim();
+        System.out.println("Ingrese la direccion de la carpeta en la cual quiere almacenar sus archivos:");
+        String direccion = sc.nextLine().trim();
+        //crear conexion
+        Conexion conexion = null;
+         try {
+            conexion = new Conexion(ip,direccion);
+            System.out.println("\nconexion realizada con exito");
+            System.out.println("Carpeta de descargas: " + direccion);
+            boolean continuar = true;
+            
+            } 
+            catch (IOException e) {
+             //en caso de que no funcione la conexion
+                System.out.println("No se pudo realizar la conexion. Intente mas tarde");
+            } finally {
+                if (conexion != null) {
+                conexion.cerrarConexion();
+            }
+                sc.close();
+                System.out.println("Cerrando programa...");
+            }
+
+                 
+        
         usuarios = lectorUsr.cargarUsuarios("");
         libros = lectorLibs.cargarLibros("");
         int opcion = 0;
