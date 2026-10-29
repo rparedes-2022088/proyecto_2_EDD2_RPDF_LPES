@@ -21,10 +21,18 @@ public class Proyecto2EDD2 {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        //TODO implementar las lecturas de los libros
         Scanner sc = new Scanner(System.in);
+        LectorUsuarios lectorUsr = new LectorUsuarios();
+        LectorLibros lectorLibs = new LectorLibros();
         List<Usuario> usuarios = new ArrayList<Usuario>();
         List<Libro> libros = new ArrayList<Libro>();
+        usuarios = lectorUsr.cargarUsuarios("");
+        libros = lectorLibs.cargarLibros("");
         int opcion = 0;
+        int opcion2 = 0;
+        int opcion3 = 0;
+        String isbn = "";
         Usuario usr = new Usuario();
         String usrName = "", contra = "";
         while(opcion != 4){
@@ -53,6 +61,28 @@ public class Proyecto2EDD2 {
                     sc.nextLine();
                     switch(opcion){
                         case 1:
+                            for(Libro libro:libros){
+                                System.out.println("ISBN: " + libro.getIsbn() + ", titulo: " + libro.getIsbn());
+                            }
+                            System.out.println("-------------Seleccione una opcion-------------");
+                            System.out.println("1. Seleccionar libro");
+                            System.out.println("2. Regresar al menu");
+                            opcion2 = sc.nextInt();
+                            sc.nextLine();
+                            if(opcion2 == 1){
+                                System.out.print("Ingrese el isbn de libro a seleccionar: ");
+                                isbn = sc.nextLine();
+                                System.out.println("-------------Seleccione una opcion-------------");
+                                System.out.println("1. Leer en linea");
+                                System.out.println("2. Descargar libro");
+                                opcion3 = sc.nextInt();
+                                sc.nextLine();
+                                if(opcion3 == 1){
+                                    
+                                } else {
+                                    
+                                }
+                            }
                             break;
                         case 2:
                             break;
@@ -78,6 +108,18 @@ public class Proyecto2EDD2 {
                     sc.nextLine();
                     switch(opcion){
                         case 1:
+                            for(Libro libro:libros){
+                                System.out.println("ISBN: " + libro.getIsbn() + ", titulo: " + libro.getIsbn());
+                            }
+                            System.out.println("-------------Seleccione una opcion-------------");
+                            System.out.println("1. Seleccionar libro");
+                            System.out.println("2. Regresar al menu");
+                            opcion2 = sc.nextInt();
+                            sc.nextLine();
+                            if(opcion2 == 1){
+                                System.out.print("Ingrese el isbn de libro a seleccionar: ");
+                                isbn = sc.nextLine();
+                            }
                             break;
                         case 2:
                             usr.setUsuario(null);
