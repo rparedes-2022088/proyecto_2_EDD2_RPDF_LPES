@@ -20,45 +20,49 @@ public class Proyecto2EDD2 {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // TODO code application logic here
         //TODO implementar las lecturas de los libros
         Scanner sc = new Scanner(System.in);
         LectorUsuarios lectorUsr = new LectorUsuarios();
         LectorLibros lectorLibs = new LectorLibros();
         List<Usuario> usuarios = new ArrayList<Usuario>();
+        final String carpetaUsuarios = "USUARIOS";
+        final String carpetaTitulos = "TITULOS";
+        final String carpetaTextos = "TEXTOS";
+        final String nombreArUsrs = "usuarios.txt";
+        final String nombreArTit = "titulos.txt";
         List<Libro> libros = new ArrayList<Libro>();
         System.out.println("Proyecto 2 - EDD2");
         
         //ingreso de datos para crear conexion al servidor
         System.out.println("Ingrese la IP del servidor al que desea acceder");
         String ip = sc.nextLine().trim();
-        System.out.println("Ingrese la direccion de la carpeta en la cual quiere almacenar sus archivos:");
-        String direccion = sc.nextLine().trim();
+        String direccion = carpetaUsuarios;
         //crear conexion
         Conexion conexion = null;
-         try {
+        try {
             conexion = new Conexion(ip,direccion);
             System.out.println("\nconexion realizada con exito");
-            System.out.println("Carpeta de descargas: " + direccion);
-            boolean continuar = true;
-            
-            } 
-            catch (IOException e) {
-             //en caso de que no funcione la conexion
-                System.out.println("No se pudo realizar la conexion. Intente mas tarde");
-            } finally {
-                if (conexion != null) {
-                conexion.cerrarConexion();
-            }
-                sc.close();
-                System.out.println("Cerrando programa...");
-            }
+            boolean continuar = true;     
+        } catch (IOException e) {
+            //en caso de que no funcione la conexion
+            System.out.println("No se pudo realizar la conexion. Intente mas tarde");
+        } finally {
+            if (conexion != null) {
+            conexion.cerrarConexion();
+        }
+            sc.close();
+            System.out.println("Cerrando programa...");
+        }
 
                  
-        
-        usuarios = lectorUsr.cargarUsuarios("");
-        libros = lectorLibs.cargarLibros("");
+        direccion = carpetaUsuarios;
+        conexion.descargarArchivo(direccion, nombreArUsrs);
+        direccion = carpetaTitulos;
+        conexion.descargarArchivo(direccion, nombreArTit);
+        usuarios = lectorUsr.cargarUsuarios(nombreArUsrs);
+        libros = lectorLibs.cargarLibros(nombreArTit);
         int opcion = 0;
         int opcion2 = 0;
         int opcion3 = 0;
