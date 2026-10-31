@@ -15,8 +15,8 @@ public class LectorLibros {
         try {
             BufferedReader lector = new BufferedReader(new FileReader(ruta));
             String linea = lector.readLine();
-            Libro libro = new Libro();
             while ((linea = lector.readLine()) != null) {
+                Libro libro = new Libro();
                 String[] datos = linea.split("\\|");
                 String isbn =  datos[0]; //codigo ISBN del libro actual
                 String titulo = datos[1]; //Titulo del libro ingresado

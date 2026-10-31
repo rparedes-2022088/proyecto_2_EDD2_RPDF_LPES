@@ -14,27 +14,27 @@ import java.util.ArrayList;
  * @author luisp
  */
 public class LectorUsuarios {
-    public List<Usuario> cargarUsuarios(String ruta){
-        List<Usuario> usuarios = new ArrayList<Usuario>();
-        try {
-            BufferedReader lector = new BufferedReader(new FileReader(ruta));
-            String linea = lector.readLine();
-            Usuario user = new Usuario();
+    public List<Usuario> cargarUsuarios(String ruta) {
+        List<Usuario> usuarios = new ArrayList<>();
+        try (BufferedReader lector = new BufferedReader(new FileReader(ruta))) {
+            String linea;
             while ((linea = lector.readLine()) != null) {
                 String[] datos = linea.split("\\|");
-                String usuario =  datos[0]; //nombre del usuario
-                String hash = datos[1]; //clave con Hash
-                boolean esPremium = Boolean.parseBoolean(datos[2]); //verificacion de si es usuario
-                user.setUsuario(usuario);
+                String usuarioStr = datos[0]; // nombre del usuario
+                String hash = datos[1];// clave con Hash
+                boolean esPremium = Boolean.parseBoolean(datos[2]); // verificacion de si es premium
+                
+                Usuario user = new Usuario();
+                user.setUsuario(usuarioStr);
                 user.setHash(hash);
                 user.setPremium(esPremium);
+
                 usuarios.add(user);
             }
-            lector.close();
-        } 
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Error al leer el archivo: " + e.getMessage());
         }
+        
         return usuarios;
     }
 }
