@@ -26,6 +26,7 @@ public class Proyecto2EDD2 {
         //TODO implementar las lecturas de los libros
         Scanner sc = new Scanner(System.in);
         AlgoritmoCodificacion algoritmo = new AlgoritmoCodificacion();
+        Diffie diffie = new Diffie();
         LectorUsuarios lectorUsr = new LectorUsuarios();
         LectorLibros lectorLibs = new LectorLibros();
         List<Usuario> usuarios = new ArrayList<Usuario>();
@@ -59,6 +60,9 @@ public class Proyecto2EDD2 {
             sc.close();
             System.out.println("Cerrando programa...");
         }
+        
+        String[] k = new String[3];
+        k = diffie.obtenerClavesPrivada();
 
         conexion.descargarArchivo(carpetaUsuarios, nombreArUsrs);
         conexion.descargarArchivo(carpetaTitulos, nombreArTit);
