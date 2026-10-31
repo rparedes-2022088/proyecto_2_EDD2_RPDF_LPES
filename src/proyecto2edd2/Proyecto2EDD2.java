@@ -107,7 +107,7 @@ public class Proyecto2EDD2 {
                         case 1:
                             System.out.println("*******CATALOGO DE LIBROS*******");
                             for(int i = 0; i < libros.size(); i++){
-                                System.out.println((i+1) + ". ISBN: " + libros.get(i).getIsbn() + ", titulo: " + libros.get(i).getIsbn());
+                                System.out.println((i+1) + ". ISBN: " + libros.get(i).getIsbn() + ", titulo: " + libros.get(i).getTitulo());
                             }
                             System.out.println("-------------Seleccione una opcion-------------");
                             System.out.println("1. Seleccionar libro");
