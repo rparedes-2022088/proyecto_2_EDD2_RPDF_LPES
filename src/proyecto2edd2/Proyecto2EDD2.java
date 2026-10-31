@@ -29,6 +29,7 @@ public class Proyecto2EDD2 {
         Diffie diffie = new Diffie();
         LectorUsuarios lectorUsr = new LectorUsuarios();
         LectorLibros lectorLibs = new LectorLibros();
+        LectorTexto lectorText = new LectorTexto();
         List<Usuario> usuarios = new ArrayList<Usuario>();
         final String carpetaUsuarios = "Usuarios";
         final String carpetaTitulos = "Catalogo";
@@ -42,7 +43,7 @@ public class Proyecto2EDD2 {
         //ingreso de datos para crear conexion al servidor
         System.out.print("Ingrese la IP del servidor al que desea acceder: ");
         String ip = sc.nextLine().trim();
-        System.out.print("Ingrese la direccion de la donde se descargaran los archivos:");
+        System.out.print("Ingrese la direccion de la donde se descargaran los archivos: ");
         String direccion = sc.nextLine().trim();
         //crear conexion
         Conexion conexion = null;
@@ -87,7 +88,7 @@ public class Proyecto2EDD2 {
                 System.out.print("Ingrese su contrasena de usuario: ");
                 contra = algoritmo.codificar(sc.nextLine());
                 for(Usuario usuario:usuarios){
-                    if(usuario.getUsuario().equals(usrName) /*&& usuario.getHash().equals(algoritmo.codificar(contra))*/){
+                    if(usuario.getUsuario().equals(usrName) && usuario.getHash().equals(contra)){
                         usr = usuario;
                         break;
                     }
@@ -124,11 +125,12 @@ public class Proyecto2EDD2 {
                                 opcion3 = sc.nextInt();
                                 sc.nextLine();
                                 //TODO: Mostrar el texto o descargar libro seleccionado
+                                conexion.descargarArchivo(carpetaTextos,(libros.get(libroSel).getIsbn()+".bin"));
+                                System.out.println("Libro descargado exitosamente.");
                                 if(opcion3 == 1){
-                                    
+                                    lectorText.mostrarTexto(direccion + "/" + libros.get(libroSel).getIsbn()+".bin", sdes1, sdes2, sdes3);
                                 } else {
-                                    conexion.descargarArchivo(carpetaTitulos,("ISBN" + libros.get(libroSel).getIsbn()+".txt"));
-                                    System.out.println("Libro descargado exitosamente.");
+                                    
                                 }
                             }
                             break;
@@ -171,6 +173,9 @@ public class Proyecto2EDD2 {
                                 libroSel = (sc.nextInt()-1);
                                 sc.nextLine();
                                 //TODO: Mostrar texto del libro seleccionado
+                                conexion.descargarArchivo(carpetaTextos,(libros.get(libroSel).getIsbn()+".bin"));
+                                System.out.println("Libro descargado exitosamente.");
+                                lectorText.mostrarTexto(direccion + "/" + libros.get(libroSel).getIsbn()+".bin", sdes1, sdes2, sdes3);
                             }
                             break;
                         case 2:

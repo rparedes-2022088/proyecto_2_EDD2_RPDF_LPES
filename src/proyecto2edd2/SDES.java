@@ -397,7 +397,7 @@ public class SDES {
         return resultado;
     }
 
-    public static List<List<Boolean>> textoABloques(String texto) {
+    public List<List<Boolean>> textoABloques(String texto) {
         List<List<Boolean>> bloques = new ArrayList<>();
         
         // Obtiene el valor numérico (código ASCII/UTF-8) de cada carácter
@@ -419,7 +419,7 @@ public class SDES {
         return bloques;
     }
     
-    public static String bloquesATexto(List<List<Boolean>> bloques) {
+    public String bloquesATexto(List<List<Boolean>> bloques) {
         byte[] bytes = new byte[bloques.size()];
         
         for (int i = 0; i < bloques.size(); i++) {

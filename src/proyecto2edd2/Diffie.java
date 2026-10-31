@@ -18,6 +18,20 @@ public class Diffie {
     public Diffie() {
     }
     
+    // Calcula (base^exponente) % modulo con precisión sin desbordar la memoria
+    private int modPow(int base, int exponente, int modulo) {
+        long res = 1;
+        long b = base % modulo;
+        while (exponente > 0) {
+            if (exponente % 2 == 1) {
+                res = (res * b) % modulo;
+            }
+            b = (b * b) % modulo;
+            exponente /= 2;
+        }
+        return (int) res;
+    }
+    
     public String[] obtenerClavesPrivada(Scanner sc){
         int[] P = new int[3];
         int[] G = new int[3];
@@ -41,10 +55,10 @@ public class Diffie {
             System.out.print("Ingrese b" + (i+1) + ": ");
             b[i] = sc.nextInt();
             sc.nextLine();
-            A[i] = (int)(Math.pow(G[i], a[i])) % P[i];
-            B[i] = (int)(Math.pow(G[i], b[i])) % P[i];
-            kA[i] = (int)(Math.pow(B[i], a[i])) % P[i];
-            kB[i] = (int)(Math.pow(A[i], b[i])) % P[i];
+            A[i] = modPow(G[i], a[i], P[i]);
+            B[i] = modPow(G[i], b[i], P[i]);
+            kA[i] = modPow(B[i], a[i], P[i]);
+            kB[i] = modPow(A[i], b[i], P[i]);
             if(kA[i] == kB[i]){
                 String kBin = Integer.toBinaryString(kA[i]);
                 if(kBin.length() < 10){
