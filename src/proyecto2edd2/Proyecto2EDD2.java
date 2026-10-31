@@ -23,7 +23,6 @@ public class Proyecto2EDD2 {
      */
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
         // TODO code application logic here
-        //TODO implementar las lecturas de los libros
         Scanner sc = new Scanner(System.in);
         AlgoritmoCodificacion algoritmo = new AlgoritmoCodificacion();
         Diffie diffie = new Diffie();
@@ -31,6 +30,7 @@ public class Proyecto2EDD2 {
         LectorLibros lectorLibs = new LectorLibros();
         LectorTexto lectorText = new LectorTexto();
         List<Usuario> usuarios = new ArrayList<Usuario>();
+        boolean terminar = false;
         final String carpetaUsuarios = "Usuarios";
         final String carpetaTitulos = "Catalogo";
         final String carpetaTextos = "Libros";
@@ -79,7 +79,7 @@ public class Proyecto2EDD2 {
         int libroSel = 0;
         Usuario usr = new Usuario();
         String usrName = "", contra = "";
-        while(opcion != 4){
+        while(terminar == false){
             while(usr.getUsuario() == null && usr.getHash() == null){
                 System.out.println("=======Sistema de libros digitales=======");
                 System.out.println("INICIO DE SESION");
@@ -94,8 +94,8 @@ public class Proyecto2EDD2 {
                     }
                 }
             }
-            while(opcion != 3){
-                if(usr.isPremium()){
+            if(usr.isPremium()){
+                while(opcion != 3 && terminar == false){
                     System.out.println("=========================================");
                     System.out.println("Seleccione una opcion: ");
                     System.out.println("1. Explorar catalogo");
@@ -124,32 +124,34 @@ public class Proyecto2EDD2 {
                                 System.out.println("2. Descargar libro");
                                 opcion3 = sc.nextInt();
                                 sc.nextLine();
-                                //TODO: Mostrar el texto o descargar libro seleccionado
                                 conexion.descargarArchivo(carpetaTextos,(libros.get(libroSel).getIsbn()+".bin"));
                                 System.out.println("Libro descargado exitosamente.");
                                 if(opcion3 == 1){
                                     lectorText.mostrarTexto(direccion + "/" + libros.get(libroSel).getIsbn()+".bin", sdes1, sdes2, sdes3);
                                 } else {
-                                    
+                                    lectorText.descargarYComprimirLibro(direccion + "/" + libros.get(libroSel).getIsbn()+".bin", direccion + "/" + libros.get(libroSel).getIsbn()+"_compressed.txt", sdes1, sdes2, sdes3);
                                 }
                             }
                             break;
                         case 2:
-                            
+                            System.out.println("Ingrese el numero de ISBN del libro descargado");
+                            String isbn = sc.nextLine();
+                            lectorText.leerLibroLocalComprimido(direccion + "/" + "ISBN" + isbn +"_compressed.txt");
                             break;
                         case 3:
-                            usr.setUsuario(null);
-                            usr.setHash(null);
-                            usr.setPremium(false);
+                            usr = new Usuario();
                             System.out.println("Cerrando sesion...");
                             break;
                         case 4:
+                            terminar = true;
                             System.out.println("Saliendo del sistema, vuelva pronto :D ...");
                             break;
                         default:
                             System.out.println("Opcion invalida, intentelo nuevamente...");
-                    } 
-                } else {
+                    }
+                }
+            } else {
+                while(opcion != 2 && terminar == false){
                     System.out.println("=========================================");
                     System.out.println("Seleccione una opcion: ");
                     System.out.println("1. Explorar catalogo");
@@ -172,25 +174,24 @@ public class Proyecto2EDD2 {
                                 System.out.print("Ingrese el numero de libro a seleccionar: ");
                                 libroSel = (sc.nextInt()-1);
                                 sc.nextLine();
-                                //TODO: Mostrar texto del libro seleccionado
                                 conexion.descargarArchivo(carpetaTextos,(libros.get(libroSel).getIsbn()+".bin"));
                                 System.out.println("Libro descargado exitosamente.");
                                 lectorText.mostrarTexto(direccion + "/" + libros.get(libroSel).getIsbn()+".bin", sdes1, sdes2, sdes3);
                             }
                             break;
                         case 2:
-                            usr.setUsuario(null);
-                            usr.setHash(null);
-                            usr.setPremium(false);
+                            usr = new Usuario();
                             System.out.println("Cerrando sesion...");
                             break;
                         case 3:
+                            terminar = true;
                             System.out.println("Saliendo del sistema, vuelva pronto :D ...");
                             break;
                         default:
                             System.out.println("Opcion invalida, intentelo nuevamente...");
-                    } 
+                    }
                 }
+
             }
         }
     }
