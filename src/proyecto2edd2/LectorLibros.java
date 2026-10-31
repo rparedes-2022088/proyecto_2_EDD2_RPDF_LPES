@@ -13,41 +13,30 @@ import java.util.ArrayList;
 public class LectorLibros {
     public List<Libro> cargarLibros(String ruta) {
         List<Libro> catalogo = new ArrayList<>();
-        
         try (BufferedReader lector = new BufferedReader(new FileReader(ruta))) {
             String linea;
             boolean primeraLinea = true;
-            
             while ((linea = lector.readLine()) != null) {
-                // 1. Limpiar el carácter BOM de UTF-8 si está presente en la primera línea
+                //verificacion de que no haya un caracter invisible al inicio del archivo (BOM)
                 if (primeraLinea) {
                     if (linea.startsWith("\uFEFF")) {
                         linea = linea.substring(1);
                     }
-                    
-                    /* 
-                     * IMPORTANTE: Si tu archivo de texto TIENE una cabecera (títulos de columnas 
-                     * en la primera línea), descomenta las siguientes dos líneas para saltártela:
-                     */
-                    // primeraLinea = false;
-                    // continue; 
                 }
                 primeraLinea = false;
-
-                // 2. Ignorar líneas vacías por seguridad
+                //ignorar lineas vacias
                 if (linea.trim().isEmpty()) {
                     continue;
                 }
 
-                String[] datos = linea.split("\\|");
-                
-                // 3. Validar que la línea tenga al menos los 2 datos necesarios
+                String[] datos = linea.split("\\|");  
+                // confirmar que la linea si tenga suficientes caracteres para ser rial no fake
                 if (datos.length < 2) {
                     continue; 
                 }
 
-                String isbn = datos[0].trim();   // Código ISBN limpio de espacios extra
-                String titulo = datos[1].trim(); // Título del libro limpio
+                String isbn = datos[0].trim();   // Código ISBN 
+                String titulo = datos[1].trim(); // Título del libro 
                 
                 Libro libro = new Libro();
                 libro.setIsbn(isbn);
