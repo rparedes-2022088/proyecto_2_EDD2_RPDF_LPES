@@ -28,7 +28,6 @@ public class LectorUsuarios {
                 user.setUsuario(usuarioStr);
                 user.setHash(hash);
                 user.setPremium(esPremium);
-
                 usuarios.add(user);
             }
         } catch (IOException e) {
