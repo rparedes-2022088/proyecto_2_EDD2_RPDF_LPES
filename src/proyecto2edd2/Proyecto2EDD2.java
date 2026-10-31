@@ -30,19 +30,19 @@ public class Proyecto2EDD2 {
         LectorUsuarios lectorUsr = new LectorUsuarios();
         LectorLibros lectorLibs = new LectorLibros();
         List<Usuario> usuarios = new ArrayList<Usuario>();
-        final String carpetaUsuarios = "USUARIOS";
-        final String carpetaTitulos = "TITULOS";
-        final String carpetaTextos = "TEXTOS";
-        final String nombreArUsrs = "usuarios.txt";
-        final String nombreArTit = "titulos.txt";
+        final String carpetaUsuarios = "Usuarios";
+        final String carpetaTitulos = "Catalogo";
+        final String carpetaTextos = "Libros";
+        final String nombreArUsrs = "MD5.txt";
+        final String nombreArTit = "Catalogo.txt";
         String libroDescargado = "";
         List<Libro> libros = new ArrayList<Libro>();
         System.out.println("Proyecto 2 - EDD2");
         
         //ingreso de datos para crear conexion al servidor
-        System.out.println("Ingrese la IP del servidor al que desea acceder");
+        System.out.print("Ingrese la IP del servidor al que desea acceder: ");
         String ip = sc.nextLine().trim();
-        System.out.println("Ingrese la direccion de la donde se descargaran los archivos:");
+        System.out.print("Ingrese la direccion de la donde se descargaran los archivos:");
         String direccion = sc.nextLine().trim();
         //crear conexion
         Conexion conexion = null;
@@ -53,21 +53,25 @@ public class Proyecto2EDD2 {
         } catch (IOException e) {
             //en caso de que no funcione la conexion
             System.out.println("No se pudo realizar la conexion. Intente mas tarde");
-        } finally {
+        }/* finally {
             if (conexion != null) {
                 conexion.cerrarConexion();
             }
             sc.close();
             System.out.println("Cerrando programa...");
-        }
+        }*/
         
         String[] k = new String[3];
-        k = diffie.obtenerClavesPrivada();
-
+        k = diffie.obtenerClavesPrivada(sc);
+        
+        SDES sdes1 = new SDES(diffie.bits(k[0]));
+        SDES sdes2 = new SDES(diffie.bits(k[1]));
+        SDES sdes3 = new SDES(diffie.bits(k[2]));
+        
         conexion.descargarArchivo(carpetaUsuarios, nombreArUsrs);
         conexion.descargarArchivo(carpetaTitulos, nombreArTit);
-        usuarios = lectorUsr.cargarUsuarios(nombreArUsrs);
-        libros = lectorLibs.cargarLibros(nombreArTit);
+        usuarios = lectorUsr.cargarUsuarios(direccion + "/" + nombreArUsrs);
+        libros = lectorLibs.cargarLibros(direccion + "/" + nombreArTit);
         int opcion = 0;
         int opcion2 = 0;
         int opcion3 = 0;
@@ -83,8 +87,9 @@ public class Proyecto2EDD2 {
                 System.out.print("Ingrese su contrasena de usuario: ");
                 contra = algoritmo.codificar(sc.nextLine());
                 for(Usuario usuario:usuarios){
-                    if(usuario.getUsuario().equals(usrName) && usuario.getHash().equals(contra)){
+                    if(usuario.getUsuario().equals(usrName) /*&& usuario.getHash().equals(algoritmo.codificar(contra))*/){
                         usr = usuario;
+                        break;
                     }
                 }
             }
@@ -154,7 +159,7 @@ public class Proyecto2EDD2 {
                         case 1:
                             System.out.println("*******CATALOGO DE LIBROS*******");
                             for(int i = 0; i < libros.size(); i++){
-                                System.out.println((i+1) + ". ISBN: " + libros.get(i).getIsbn() + ", titulo: " + libros.get(i).getIsbn());
+                                System.out.println((i+1) + ". ISBN: " + libros.get(i).getIsbn() + ", titulo: " + libros.get(i).getTitulo());
                             }
                             System.out.println("-------------Seleccione una opcion-------------");
                             System.out.println("1. Seleccionar libro");

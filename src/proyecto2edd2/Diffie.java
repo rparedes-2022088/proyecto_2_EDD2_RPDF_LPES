@@ -5,7 +5,8 @@
 package proyecto2edd2;
 
 import java.lang.Math;
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -17,8 +18,7 @@ public class Diffie {
     public Diffie() {
     }
     
-    public String[] obtenerClavesPrivada(){
-        Scanner sc = new Scanner(System.in);
+    public String[] obtenerClavesPrivada(Scanner sc){
         int[] P = new int[3];
         int[] G = new int[3];
         int[] a = new int[3];
@@ -29,16 +29,16 @@ public class Diffie {
         int[] kA = new int[3];
         int[] kB = new int[3];
         for(int i = 0; i < 3; i++){
-            System.out.print("Ingrese P" + (1+1) + ": ");
+            System.out.print("Ingrese P" + (i+1) + ": ");
             P[i] = sc.nextInt();
             sc.nextLine();
-            System.out.print("Ingrese G" + (1+1) + ": ");
+            System.out.print("Ingrese G" + (i+1) + ": ");
             G[i] = sc.nextInt();
             sc.nextLine();
-            System.out.print("Ingrese a" + (1+1) + ": ");
+            System.out.print("Ingrese a" + (i+1) + ": ");
             a[i] = sc.nextInt();
             sc.nextLine();
-            System.out.print("Ingrese b" + (1+1) + ": ");
+            System.out.print("Ingrese b" + (i+1) + ": ");
             b[i] = sc.nextInt();
             sc.nextLine();
             A[i] = (int)(Math.pow(G[i], a[i])) % P[i];
@@ -58,5 +58,27 @@ public class Diffie {
             }
         }
         return k;
+    }
+    
+    public static List<Boolean> bits(String cadena) {
+
+
+        List<Boolean> resultado = new ArrayList<>();
+
+
+        for (char c : cadena.toCharArray()) {
+
+
+            if (c == '0') {
+                resultado.add(false);
+            } else if (c == '1') {
+                resultado.add(true);
+            }
+
+
+        }
+
+
+        return resultado;
     }
 }
